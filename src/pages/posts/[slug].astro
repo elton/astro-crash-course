@@ -1,0 +1,46 @@
+---
+import Card from '../../components/Card.astro';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await Astro.glob('../../posts/*.md');
+
+  // 返回对象数组，以确定哪些路径会被 Astro 预渲染。
+  return posts.map((post) => ({
+    params: {
+      /* required */
+      // 每个返回对象的 params 键都会告诉 Astro 要建立什么路径的页面。如：/blog/[slug]
+      // params 被编码到链接中，所以只能由字符串和数字。每个 params 对象的值必须与页面名称中使用的参数一致。因为文件名为 [slug].astro，所以这里的参数名也是 slug。
+      slug: post.frontmatter.slug,
+    },
+    props: {
+      /* optional */
+      // 为了给每个生成的页面传递额外的数据，你也可以在每个返回的路径对象上设置 props 值。
+      post,
+    },
+  }));
+  // 然后 Astro 将在构建时使用 pages/posts/[slug].astro 中的页面组件静态地生成 posts/slug-1 和 posts/slug-2 ...
+}
+
+const { frontmatter, Content } = Astro.props.post;
+---
+
+<Layout title={frontmatter.title}>
+  <section class='my-5'>
+    <div class='container'>
+      <Card>
+        <a
+          class='inline-block py-2 px-4 rounded bg-gray-600 text-white uppercase text-sm'
+          href='/blog'>Go Back</a
+        >
+        <h2 class='my-5 text-4xl font-bold leading-5'>{frontmatter.title}</h2>
+        <div>
+          Written by <strong>{frontmatter.author}</strong> on {
+            new Date(frontmatter.date).toLocaleDateString()
+          }
+        </div>
+        <Content />
+      </Card>
+    </div>
+  </section>
+</Layout>

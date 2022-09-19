@@ -23,7 +23,9 @@ console.log(posts);
               {new Date(post.frontmatter.date).toLocaleDateString()}
             </div>
             <p class='my-4'>{post.frontmatter.excerpt}</p>
-            <a class='inline-block py-2 px-4 rounded bg-gray-600 text-white uppercase text-sm' href={`/${post.frontmatter.slug}`}>
+            <a
+              class='inline-block py-2 px-4 rounded bg-gray-600 text-white uppercase text-sm'
+              href={`/posts/${post.frontmatter.slug}`}>
               Read More
             </a>
           </Card>
