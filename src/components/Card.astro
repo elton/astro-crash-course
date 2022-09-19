@@ -1,0 +1,15 @@
+---
+export interface Props {
+  dark?: boolean;
+}
+
+const { dark = false } = Astro.props as Props;
+---
+
+<div
+  class={`p-5 rounded-lg shadow-lg mb-5 ${
+    dark ? 'bg-slate-800 text-white' : 'bg-white'
+  }`}
+>
+  <slot />
+</div>
